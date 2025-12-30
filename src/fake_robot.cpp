@@ -381,6 +381,7 @@ private:
     // Create PointCloud2 message
     auto pc = std::make_unique<sensor_msgs::msg::PointCloud2>();
     pc->header.stamp = now;
+
     pc->header.frame_id = "robot";
     pc->height = 1;
     pc->width = observed.size();
@@ -417,17 +418,11 @@ private:
     for (size_t i = 0; i < observed.size(); ++i) {
       double noise_x = noise_dist_(rng_) * std_dev;
       double noise_y = noise_dist_(rng_) * std_dev;
-
       double dx = observed[i].first.x - robot_x_;
-
       double dy = observed[i].first.y - robot_y_;
-
       double c = std::cos(robot_theta_gt_);
-
       double s = std::sin(robot_theta_gt_);
-
       double xr = c * dx + s * dy;
-
       double yr = -s * dx + c * dy;
 
       xr += noise_x;
